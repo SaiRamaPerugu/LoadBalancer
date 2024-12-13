@@ -12,4 +12,5 @@
    Second one on port 81 and third on port 82
    Forward request 1 to Second server, request 2 to Third server.
    ```
-3. Handle multiple connections, using threads?
+3. Verify the bytes have been sent and received match. 
+4. Handle multiple connections, using threads?
