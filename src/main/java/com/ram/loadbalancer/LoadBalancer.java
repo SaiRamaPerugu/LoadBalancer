@@ -17,17 +17,27 @@ public class LoadBalancer {
     }
 
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("Server listening on port " + port);
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("New client from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                String message = bufferedReader.readLine();
-                System.out.println("Message from client: " + message);
-                out.println("Message received ok");
+        try(ServerSocket serverSocket = new ServerSocket(port))  {
+            System.out.println("Load balancer listening on port " + port);
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client connected from :" +
+                    "Local address" + clientSocket.getLocalAddress() + ":" +
+                    "Local Socket Address " + clientSocket.getLocalSocketAddress()  + ":" +
+                    " Inet address " + clientSocket.getInetAddress()  + ":" +
+                    " Port " + clientSocket.getPort());
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            String message;
+            System.out.println("Waiting for messages...");
+            while ((message = reader.readLine()) != null) {
+                System.out.println("Received message: " + message);
             }
+
+            reader.close();
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            out.println("Message received from server ok");
+            clientSocket.close();
+            System.out.println("Client disconnected");
         } catch (IOException e) {
             e.printStackTrace();
         }

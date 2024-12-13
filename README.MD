@@ -7,7 +7,9 @@
 
 1. Run multiple instances of a client.
 2. Have three instances of a server running.
+   ```
    One on port 80 - the load balancer
    Second one on port 81 and third on port 82
    Forward request 1 to Second server, request 2 to Third server.
+   ```
 3. Handle multiple connections, using threads?
