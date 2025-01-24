@@ -1,4 +1,4 @@
-package com.ram.loadbalancer;
+package com.ram.client;
 
 import java.io.*;
 import java.net.Socket;
